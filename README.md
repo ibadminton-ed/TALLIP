@@ -1,0 +1,2 @@
+# TALLIP
+Chinese event extraction
