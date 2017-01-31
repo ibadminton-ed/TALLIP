@@ -1,29 +1,23 @@
 \begin{abstract}
 Event extraction is an important technology that underpins many text mining applications. It is a task of extracting events of
-certain types and their corresponding arguments of different roles from unstructured texts such as news articles and tweets. 
-%Previously, the performance of event extraction  The quality of the features has a significant impact on the resulted . 
-State-of-the-art event extraction approaches rely on high quality feature extraction, which requires careful template design
-and results of specific semantic or lexical analyzing tools as well as extra thesauruses. 
-%   follow a time-consuming manual process for feature selection and tuning. 
-%   They heavily rely on the information provided by specific lexical or syntactic analyzing tools. 
-As a result, current approaches are hard to generalize,  
-%The key challenge here is that the quality of the features strongly depends on the natural language, the structure of the data and the application domain. 
-and difficult to adapt to new languages, especially those with limited resources or tools. 
-%This means that developers have to spend substantial time in finding a new set of features for each individual application domain or  analyzing tool. 
+certain types and their corresponding arguments of different roles from unstructured texts such as news articles and tweets.
+State-of-the-art event extraction approaches rely on high quality feature extraction that requires careful template design
+and is dependent on the results of specific semantic or lexical analyzing tools as well as extra thesauruses.
+As a result, current approaches are hard to generalize, and are not portable to new languages, especially those with limited resources or tools.
 
-%Given to the drastic effort  involved in feature tuning, an automatic approach for feature engineering for event extraction will be highly attractive. 
-%Archiving automatic feature engineering for Chinese event extraction is an outstanding challenge. 
-Different from English, the unique language structures and syntax of Chinese make  prior work on English
- event extraction inapplicable to the new domain.  In this work, we demonstrate, for the first time, it is possible to construct a generalized yet effective
-Chinese event extraction model without relying on manually designed feature templates or specific lexical or syntactic
-tools. Our novel, broadly applicable approach employs a convolution bidirectional long short-term memory neural
-network (\CBiLSTM) to automatically learn a set of effective feature representations. % at both lexical and sentence levels. 
-We achieve this by exploiting different neural network components, a convolutional component (\CNN) for prominent lexical features and 
- a bidirectional long short-term memory component (\BiLSTM) capturing sentence level representations. 
-To overcome the language-specific challenge of Chinese word segmentation, we combine a conditional random field
-(\CRF) layer over a character-level neural network component to allow us tag each character beyond word boundary. %\FIXME{allow us xx??}. 
-We evaluate our approach on the ACE 2005 dataset, and experimental results show that our approach can deliver state-of-the-art performance
-in both trigger labeling and argument labeling without laborious feature engineering.%, transforming what is potentially months of work into hours.
+
+Different from English, the unique language structures and syntax of Chinese make  prior work on English event
+extraction inapplicable to the new domain.  In this work, we demonstrate that, for the first time, it is possible to
+construct a generalized yet effective Chinese event extraction model without relying on manually designed feature
+templates or specific lexical or syntactic tools. Our novel, broadly applicable approach employs a convolution
+bidirectional long short-term memory neural network (\CBiLSTM) to automatically learn a set of effective feature
+representations. We achieve this by exploiting different neural network components to extract features at various
+levels. More specifically, we employ  a convolutional component (\CNN) for prominent lexical features and a
+bidirectional long short-term memory component (\BiLSTM) for capturing sentence level representations. To overcome the
+language-specific challenge of Chinese word segmentation, we combine a conditional random field (\CRF) layer over a
+character-level neural network component to allow us tag each character beyond the word boundary. We evaluate our
+approach by applying it to the ACE 2005 dataset. The experimental results show that our approach can deliver
+state-of-the-art performance in both trigger labeling and argument labeling without laborious feature engineering.
 
 
 
