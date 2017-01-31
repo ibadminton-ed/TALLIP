@@ -1,0 +1,39 @@
+\section{Argument Labeling}\label{argument}
+After trigger labeling, a sentence will be labeled with an event trigger, and its corresponding event type. Next step is argument labeling, including two subtasks: argument identification and argument classification. Given the related event trigger, argument identification aims to determine whether a candidate argument serves as a participant or an attribute with a specific role or not, and argument classification assigns a role to each identified argument. Similar to trigger labeling, we propose a joint argument labeling model that jointly performs argument identification and argument classification.
+
+However, it is worth mentioning that unlike trigger labeling, argument labeling is no longer a sequence tagging task, \textbf{but a  classification task: given a pair of trigger and candidate argument, determine the relationship between them.} ACE dataset provides ground truth about entity mention, value, time expression recognition, and it guarantees that gold standard arguments are annotated exactly from those particular candidates. As a result, for each trigger, the list of its candidate arguments that we used include all and only those entity mentions, values, and time expressions within the same sentence. Training instances are created by pairing each trigger with each of its argument candidates. For instance, there are three triggers (bold words), and three entities (underlined words) in S8, which make up nine pairs of trigger and argument candidate to be classified, such as (\textbf{murders}, \underline{France}) and (\textbf{assassination}, \underline{Joe}).
+
+\begin{quote}
+	S8: 六起 \textbf{谋杀案} 发生 在 \underline{法国} ， 包括 \underline{Bob} 的 \textbf{暗杀} 和 \underline{Joe} 的 \textbf{杀害} 。
+	
+	\hspace{0.55cm} Six \textbf{murders} occurred in \underline{France}, including the \textbf{assassination} of \underline{Bob} and the \textbf{killing} of \underline{Joe}.
+\end{quote}
+The idea of convolution bidirectional LSTM model in trigger labeling is also suitable for argument labeling: given a typed trigger recognized by trigger labeling, together with a candidate argument, we utilize a RNN to obtain a sentence-level feature, concatenated with a CNN-extracted local lexical feature, to predict what role the candidate argument plays in the detected event. A special role \texttt{NONE} indicates the candidate does not play any role in the event.
+
+Even though all candidate arguments are words, we need to encode trigger information into input features (see Section~\ref{ainput} for details), where language specific issues still have an impact on our prediction, therefore, the model we proposed here is a character-based model. We detail the differences between the convolution bidirectional LSTM models used in trigger labeling and argument labeling in the following sections.
+
+\subsection{Input}\label{ainput}
+Given a training instance $(t, e)$ where $t$ is a typed trigger and $e$ is an ACE-annotated entity regarded as argument candidate, the input feature vector of each character includes not only character embeddings, but also information extracted from upstream trigger labeling subtask. Therefore, we propose four additional types of features to capture these important clues:
+\begin{itemize}
+\item Trigger position feature (TPF): as a trigger may be composed of several characters, we calculate the relative distance of a character to the nearest character in $t$.
+\item Trigger type feature (TTF): classified trigger type of a character, and a special type \texttt{NONE} for characters not in $t$.
+\item Candidate argument position feature (APF): the relative distance of the current character to the nearest character in $e$.
+\item Entity type feature (ETF): the entity type of the current character, and a special type \texttt{NONE} for characters not in an entity.
+\end{itemize}
+
+For example, in S8, if we want to predict the relationship between ``暗杀'' (assassination) and ``Bob'', the TPF, TTF, APF, ETF of character ``法'' in the entity ``法国'' (France) is \texttt{8}\footnote{The relative distance between character ``法'' and character ``暗'' in the trigger word ``暗杀'' (assassination)} , \texttt{NONE}, \texttt{4}\footnote{The relative distance between character ``法'' and character ``B'' in the candidate argument ``Bob''}, \texttt{GPE}, respectively.
+
+
+We transform these feature values into vectors by their corresponding lookup tables, and concatenate them with the original character vector, as the final input vector fed into BiLSTM and CNN layer. All additional feature embeddings are randomly initialized and optimized through back propagation.
+
+\subsection{BiLSTM}
+We continue to make use of GRU units to memory long sequences, and adapt the output vector of LSTM layer for argument labeling. Specifically, in the forward LSTM layer, we regard the hidden state of the last word $\overrightarrow{\text{h}_n}$ as the sentence vector. As for the backward LSTM layer, hidden state of the first word $\overleftarrow{\text{h}_1}$ is selected to be the reverse sentence vector. We concatenate these two vectors to form the output vector of a BiLSTM network, i.e. $\bm{B} = [\overrightarrow{\text{h}_n}; \overleftarrow{\text{h}_1}]$.
+
+\subsection{CNN}
+For the CNN layer, we take all words of the entire sentence as the context, rather than a shallow context window for each word under prediction. Formally, the matrix $\bm{c}$ fed into the convolution operator is given by:
+\begin{equation}
+	\bm{c} = [\text{x}_1, \text{x}_2, \ldots, \text{x}_n] \notag
+\end{equation}
+where $\text{x}_i$ is the input vector described in Section~\ref{ainput}. After convolution and max pooling operation, we obtain a output vector $\bm{C}$ which is the representation of salient lexical features about the current pair of trigger and candidate argument.
+
+Finally, we feed the concatenation of output vectors from two networks, $\bm{F}=[\bm{B};\bm{C}]$, into a softmax classifier to estimate a probability distribution over all possible roles.
