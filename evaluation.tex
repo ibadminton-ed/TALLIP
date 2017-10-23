@@ -1,5 +1,7 @@
 \section{Evaluation}\label{experiments}
-\textbf{We evaluate our models on the ACE 2005 corpus to investigate the following questions: (1) can our neural network models achieve satisfactory performances without feature engineering; (2) can our models alleviate the language issue in Chinese event extraction?}
+We evaluate our models on the ACE 2005 corpus to investigate the following questions: (1) can our neural network models achieve
+satisfactory performances without feature engineering; (2) can our models alleviate the language issue in Chinese event extraction?
+
 \subsection{Experimental Setup}
 \paragraph{Dataset and evaluation methodology}
 We used the standard ACE 2005 corpus in our evaluation, which contains 633 Chinese documents. Unlike English, the ACE Chinese corpus does not have a recognized partition of documents for evaluation. Most of the previous work \cite{chen2009language,feng2016language} randomly select about 10\% of the 633 documents as the test set. However, as reported by Chen and NG \shortcite{chen2012joint} via 10-fold cross validation, performances achieved on different partitions vary considerably due to the small size of test sets. Therefore, cross validation may be a better choice when conducting experiments on the ACE 2005 corpus. In order to make accurate evaluation and save time, we perform 5-fold cross-validation and report our performances averaged over five folds.
@@ -34,12 +36,16 @@ Table~\ref{eight} summarizes the chosen hyper-parameters for all experiments.
 \begin{table}
 \tbl{Hyper-parameters for all experiments.\label{eight}}
   {\begin{threeparttable}
-\begin{tabular}{|l|l|p{0.25\columnwidth}|p{0.25\columnwidth}|} \hline
-	Layer & Hyper-parameter & Trigger identification and classification & Argument identification and classification \\ \hline
-	\multirow{3}{*}{Input} & word embedding & 200 & -- \\ & character embedding & 100 & 100 \\ & feature embedding{$^1$} & -- & 32 \\  \hline
-	Dropout & dropout rate & 0.5 & 0.5 \\ \hline
-	GRU & state size & 100 & 100 \\ \hline
-	\multirow{3}{*}{CNN} & context size & 7 & sentence length \\ & kernel sizes & [2, 4, 6] & [1, 2, 3, 4, 5] \\ & number of filters & [32, 32, 32] & [16, 16, 16, 16, 16] \\ \hline
+\begin{tabular}{llp{0.25\columnwidth}p{0.25\columnwidth}} \toprule
+	\textbf{Layer} & \textbf{Hyper-parameter} & \textbf{Trigger identification and classification} & \textbf{Argument identification and classification} \\
+    \midrule
+	\rowcolor{Gray} & word embedding & \cellcolor{Gray}200 & -- \\
+    \rowcolor{Gray} \textbf{Input} & character embedding & 100 & 100 \\
+    \rowcolor{Gray} & feature embedding{$^1$} & -- & 32 \\
+	 \textbf{Dropout} & dropout rate & 0.5 & 0.5 \\
+	\rowcolor{Gray} \textbf{GRU} & state size & 100 & 100 \\
+	\multirow{3}{*}{\textbf{CNN}} & context size & 7 & sentence length \\ & kernel sizes & [2, 4, 6] & [1, 2, 3, 4, 5] \\ & number of filters & [32, 32, 32] & [16, 16, 16, 16, 16] \\
+    \bottomrule
 \end{tabular}
 \begin{tabnote}%
 \tabnoteentry{$^1$}{Feature embeddings, including trigger position embedding, trigger type embedding, argument position embedding and entity type embedding, have the same size.}
@@ -47,7 +53,7 @@ Table~\ref{eight} summarizes the chosen hyper-parameters for all experiments.
 \end{threeparttable}}
 \end{table}
 
-\subsection{Our Method vs. State-of-the-art Methods}
+\subsection{Compare with State-of-the-art Methods}
 Table~\ref{tab:two} shows the overall performance of all methods on the ACE2005 Chinese corpus. We select the following state-of-art methods for comparison.
 
 \begin{itemize}
@@ -61,20 +67,20 @@ Table~\ref{tab:two} shows the overall performance of all methods on the ACE2005 
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \tbl{Overall system performance (\%)\label{tab:two}}{
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|} \hline
-	\multirow{2}{*}{Model} &
-	\multicolumn{3}{c|}{\tabincell{c}{Trigger \\ Identification}} &
-	\multicolumn{3}{c|}{\tabincell{c}{Trigger \\ Classification}} &
-	\multicolumn{3}{c|}{\tabincell{c}{Argument \\ Identification}} &
-	\multicolumn{3}{c|}{\tabincell{c}{Argument \\ Classification}} \\
+	\multirow{2}{*}{\textbf{Model}} &
+	\multicolumn{3}{c|}{\tabincell{c}{\textbf{Trigger} \\ \textbf{Identification}}} &
+	\multicolumn{3}{c|}{\tabincell{c}{\textbf{Trigger} \\ \textbf{Classification}}} &
+	\multicolumn{3}{c|}{\tabincell{c}{\textbf{Argument} \\ \textbf{Identification}}} &
+	\multicolumn{3}{c|}{\tabincell{c}{\textbf{Argument} \\ \textbf{Classification}}} \\
 	\cline{2-13}
 	& P & R & F & P & R & F & P & R & F & P & R & F \\ \hline
-	Char-MEMM & \bf 82.4 & 50.6 & 62.7 & \bf 78.8 & 48.3 & 59.9 & \bf 64.4 & 36.4 & 46.5 & \bf 60.6 & 34.3 & 43.8 \\ \hline
+	\rowcolor{Gray} Char-MEMM & \bf 82.4 & 50.6 & 62.7 & \bf 78.8 & 48.3 & 59.9 & \bf 64.4 & 36.4 & 46.5 & \bf 60.6 & 34.3 & 43.8 \\ \hline
 	Rich-L & 62.2 & \bf 71.9 & 66.7 & 58.9 & \bf 68.1 & 63.2 & 43.6 & \bf 57.3 & 49.5 & 39.2 & \bf 51.6 & 44.6 \\ \hline
-	HNN & 74.2 & 63.1 & \bf 68.2 & 77.1 & 53.1 & 63.0 & \multicolumn{6}{|c|}{--} \\ \hline \hline
+	\rowcolor{Gray} HNN & 74.2 & 63.1 & \bf 68.2 & 77.1 & 53.1 & 63.0 & \multicolumn{6}{|c|}{\cellcolor{Gray}--} \\ \hline \hline
 	C-BiLSTM$_{word}$ & 65.2 & 62.7 & 63.9 & 61.7 & 59.4 & 60.5 & 50.3 & 50.2 & 50.2 & 43.4 & 43.3 & 43.3 \\ \hline
-	\quad + Errata table & 68.3 & 65.8 & \bf 66.9 & 62.7 & 60.9 & 61.6 & 49.2 & 52.1 & 50.6 & 42.4 & 44.8 & 43.5  \\ \hline
+	\rowcolor{Gray} \quad + Errata table & 68.3 & 65.8 & \bf 66.9 & 62.7 & 60.9 & 61.6 & 49.2 & 52.1 & 50.6 & 42.4 & 44.8 & 43.5  \\ \hline
 	C-BiLSTM$_{char}$ & 63.7 & 63.2 & 63.4 & 60.1 & 59.6 & 59.9 & 49.8 & 52.8 & 51.2 & 42.4 & 45.0 & 43.6  \\ \hline
-	\quad + Errata table & 67.0 & 66.4 & 66.7 & 60.7 & 62.6 & 61.5 &  49.8 & 53.0 & 51.2 & 42.8 & 45.5 & 44.1  \\ \hline
+	\rowcolor{Gray} \quad + Errata table & 67.0 & 66.4 & 66.7 & 60.7 & 62.6 & 61.5 &  49.8 & 53.0 & 51.2 & 42.8 & 45.5 & 44.1  \\ \hline
 	C-BiLSTM-CRF$_{char}$ & 66.1 & 67.9 & \bf 66.9 & 62.5 & 64.2 & \bf 63.3 &  50.8 & 54.1 & \bf 52.4 & 44.0 & 46.8 & \bf 45.3 \\ \hline
 \end{tabular}}
 \end{table}
@@ -94,13 +100,13 @@ As shown in Table~\ref{tab:two}, when applying the same network architecture to 
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \tbl{Performance of different types of triggers by different models on trigger labeling.{$^2$}\label{tab:three}}{
 \begin{tabular}{|l|l|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|} \hline
-\multirow{2}{*}{Stage} & \multirow{2}{*}{Model} &
-\multicolumn{3}{c|}{Regular Triggers{$^1$}} & \multicolumn{3}{c|}{Inside-word Triggers} & \multicolumn{3}{c|}{Cross-word Triggers} \\ \cline{3-11}
+\multirow{2}{*}{\textbf{Stage}} & \multirow{2}{*}{\textbf{Model}} &
+\multicolumn{3}{c|}{\textbf{Regular Triggers}{$^1$}} & \multicolumn{3}{c|}{\textbf{Inside-word Triggers}} & \multicolumn{3}{c|}{\textbf{Cross-word Triggers}} \\ \cline{3-11}
  & & P & R & F & P & R & F & P & R & F \\ \hline
-\multirow{3}{*}{\tabincell{l}{Trigger \\ Identification}}
-& C-BiLSTM$_{word}$ & 64.1 & 72.4 & 68.0 & -- & 0 & -- & 63.0 & 44.6 & \bf 52.3 \\ \cline{2-11}
-& C-BiLSTM$_{char}$ & 67.6 & 68.5 & 68.0 & 20.3 & 30.8 & 37.6 & 57.8 & 31.2 & 40.5 \\ \cline{2-11}
-& C-BiLSTM-CRF$_{char}$ & 67.6 & 72.4 & \bf 70.0 & 51.1 & 40.7 & \bf 45.3 & 51.3 & 38.9 & 44.3 \\ \hline
+\rowcolor{Gray}
+    & C-BiLSTM$_{word}$ & 64.1 & 72.4 & 68.0 & -- & 0 &  -- & 63.0 & 44.6 & \bf 52.3 \\ \cline{2-11}
+\rowcolor{Gray} & C-BiLSTM$_{char}$ & 67.6 & 68.5 & 68.0 & 20.3 & 30.8 & 37.6 & 57.8 & 31.2 & 40.5 \\ \cline{2-11}
+\rowcolor{Gray} \multirow{-3}{*}{\tabincell{l}{\cellcolor{Gray}Trigger \\ \cellcolor{Gray}Identification}} & C-BiLSTM-CRF$_{char}$ & 67.6 & 72.4 & \bf 70.0 & 51.1 & 40.7 & \bf 45.3 & 51.3 & 38.9 & 44.3 \\ \hline
 \multirow{3}{*}{\tabincell{l}{Trigger \\ Classification}}
 & C-BiLSTM$_{word}$ & 60.6 & 68.4 & 64.2 & -- & 0 & -- & 57.8 & 40.9 & \bf 47.9 \\ \cline{2-11}
 & C-BiLSTM$_{char}$ & 64.1 & 64.9 & 64.5 & 18.0 & 27.3 & 21.7 & 49.7 & 26.8 & 34.9 \\ \cline{2-11}
@@ -123,19 +129,18 @@ We then take a further step to investigate their impacts on different kinds of t
 \begin{table}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \tbl{Error analysis: examples of triggers mislabeled by character-based C-BiLSTM.\label{tab:five}}{
-\begin{tabular}{|p{0.25cm}l|l|p{0.6cm}l|}\hline
-\multicolumn{2}{|l|}{Sentence} & Triggers & \multicolumn{2}{l|}{Labels} \\ \hline
-S9: & \textbf{走访} 相关 人员 以后，...
+\begin{tabular}{p{0.25cm}llp{0.6cm}l}\toprule
+\multicolumn{2}{l}{\textbf{Sentence}} & \textbf{Triggers} & \multicolumn{2}{l}{\textbf{Labels}} \\ \midrule
+\rowcolor{Gray} S9: & \textbf{走访} 相关 人员 以后，...
 & 走访  & expect: & \texttt{BI} \\
-& After \textbf{visiting} to relevant staff, ... & visiting & output: &\texttt{BO} \\ \hline
+\rowcolor{Gray} & After \textbf{visiting} to relevant staff, ... & visiting & output: &\texttt{BO} \\
 
 S10: & \textbf{贺电} 全文 如下：
 & 贺电 & expect: & \texttt{BI} \\
-& There is the full \textbf{congratulatory message} & congratulatory message & output: & \texttt{OB} \\ \hline
+& There is the full \textbf{congratulatory message} & congratulatory message & output: & \texttt{OB} \\
 
-S11: & 小偷 被 逼 进 \textbf{死 胡同}。
-& 死 胡同 & expect: & \texttt{O OO} \\
-& The thief was chased into a \textbf{dead end}. & dead end & output: & \texttt{B OO} \\ \hline
+\rowcolor{Gray}S11: & 小偷 被 逼 进 \textbf{死 胡同}。& 死 胡同 & expect: & \texttt{O OO} \\
+\rowcolor{Gray} & The thief was chased into a \textbf{dead end}. & dead end & output: & \texttt{B OO} \\ \bottomrule
 \end{tabular}}
 \end{table}
 
@@ -154,20 +159,20 @@ To compare the effectiveness of different neural network components of C-BiLSTM,
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \tbl{Comparison of performances of BiLSTM, CNN and C-BiLSTM model. Performances of argument labeling are evaluated on gold standard event triggers. \label{tab:four}}{
 \begin{tabular}{|l|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|p{0.6cm}<{\centering}|} \hline
-\multirow{2}{*}{Model} &
-\multicolumn{3}{c|}{\tabincell{c}{Trigger \\ Identification}} &
-\multicolumn{3}{c|}{\tabincell{c}{Trigger \\ Classification}} \\ \cline{2-7}
+\multirow{2}{*}{\textbf{Model}} &
+\multicolumn{3}{c|}{\tabincell{c}{\textbf{Trigger} \\ \textbf{Identification}}} &
+\multicolumn{3}{c|}{\tabincell{c}{\textbf{Trigger} \\ \textbf{Classification}}} \\ \cline{2-7}
 & P & R & F & P & R & F \\ \hline
-BiLSTM$_{word}$ & 66.0 & 59.7 & 62.7 & 59.3 & 60.1 & 59.5 \\ \hline
+\rowcolor{Gray} BiLSTM$_{word}$ & 66.0 & 59.7 & 62.7 & 59.3 & 60.1 & 59.5 \\ \hline
 CNN$_{word}$ & 67.6 & 58.2 & 62.5 & 63.8 & 54.9 & 59.0 \\ \hline
-C-BiLSTM$_{word}$ & 65.2 & 62.8 & 63.9 & 61.7 & 59.4 & 60.5 \\ \hline \hline
-\multirow{2}{*}{Model} &
-\multicolumn{3}{c|}{\tabincell{c}{Argument \\ Identification}} &
-\multicolumn{3}{c|}{\tabincell{c}{Argument \\ Classification}} \\ \cline{2-7}
+\rowcolor{Gray} C-BiLSTM$_{word}$ & 65.2 & 62.8 & 63.9 & 61.7 & 59.4 & 60.5 \\ \hline \hline
+\multirow{2}{*}{\textbf{Model}} &
+\multicolumn{3}{c|}{\tabincell{c}{\textbf{Argument} \\ \textbf{Identification}}} &
+\multicolumn{3}{c|}{\tabincell{c}{\textbf{Argument} \\ \textbf{Classification}}} \\ \cline{2-7}
 & P & R & F & P & R & F \\ \hline
-BiLSTM$_{char}$ & 68.7 & 73.4 & 71.0 & 60.4 & 64.5 & 62.4 \\ \hline
+\rowcolor{Gray} BiLSTM$_{char}$ & 68.7 & 73.4 & 71.0 & 60.4 & 64.5 & 62.4 \\ \hline
 CNN$_{char}$ & 67.1 & 66.9 & 66.9 & 60.4 & 60.2 & 60.3  \\ \hline
-C-BiLSTM$_{char}$ & 69.5 & 74.4 & 71.9 & 61.3 & 65.6 & 63.4  \\ \hline
+\rowcolor{Gray} C-BiLSTM$_{char}$ & 69.5 & 74.4 & 71.9 & 61.3 & 65.6 & 63.4  \\ \hline
 \end{tabular}}
 \end{table}
 
@@ -191,9 +196,10 @@ Another challenge here is that some words can trigger different types of events,
 
 \begin{table}
 \tbl{Percentages of ambiguous words classified correctly. All networks listed in this table are word-based.\label{tab:six}}{
-\begin{tabular}{|l|c|c|c|} \hline
- & BiLSTM & CNN & C-BiLSTM \\ \hline
-ambiguous word classification ($\%$) & 61.4 & 61.7 & 64.1 \\ \hline
+\begin{tabular}{lccc} \toprule
+ & \textbf{BiLSTM} & \textbf{CNN} & \textbf{C-BiLSTM} \\ \midrule
+    ambiguous word classification ($\%$) & 61.4 & 61.7 & 64.1 \\
+ \bottomrule
 \end{tabular}}
 \end{table}
 

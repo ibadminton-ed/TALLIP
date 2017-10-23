@@ -15,11 +15,13 @@ Table~\ref{tab:one} summarizes the number of problematic triggers we found in AC
 \begin{table}
 \centering
 \tbl{Numbers of triggers inconsistent with the words.\label{tab:one}}{
-\begin{tabular}{|l|c|c|c|} \hline 
-NLP Tool & Cross-word Trigger & Inside-word Trigger & Total \\ \hline
-Stanford NLP\footnote{\texttt{http://nlp.stanford.edu/software/segmenter.shtml}} & 14.6\% & 5.0\% & 19.6\% \\ \hline
-Jieba\footnote{\texttt{https://github.com/fxsjy/jieba}} & 16.6\% & 2.6\% & 19.2\% \\ \hline
-NLPIR\footnote{\texttt{https://github.com/NLPIR-team/NLPIR}} & 8.9\% & 5.2\% & 14.1\% \\ \hline
+\begin{tabular}{lccc}
+\toprule
+\textbf{NLP Tool} & \textbf{Cross-word Trigger} & \textbf{Inside-word Trigger} & \textbf{Total} \\ \midrule
+\rowcolor{Gray} Stanford NLP\footnote{\texttt{http://nlp.stanford.edu/software/segmenter.shtml}} & 14.6\% & 5.0\% & 19.6\% \\
+Jieba\footnote{\texttt{https://github.com/fxsjy/jieba}} & 16.6\% & 2.6\% & 19.2\% \\
+\rowcolor{Gray}  NLPIR\footnote{\texttt{https://github.com/NLPIR-team/NLPIR}} & 8.9\% & 5.2\% & 14.1\% \\
+\bottomrule
 \end{tabular}}
 \end{table}
 \end{savenotes}
@@ -109,18 +111,21 @@ As shown in Figure~\ref{figure2}, character-based C-BiLSTM has a similar network
 \begin{table}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \tbl{Difference of output sequences between character-based method and word-based method \label{six}}{
-\begin{tabular}{|r|l|} \hline
+\begin{tabular}{rl} \toprule
 Sentence: & \tabincell{l}{
 犯罪 \hspace{0.1cm}嫌疑人 \hspace{0.2cm}都 \hspace{0.2cm}\textbf{落入 法网}。 \\
-The suspects were \textbf{arrested}.}
-\\ \hline
-C-BiLSTM$_{word}$: & \texttt{ O \hspace{0.45cm}O \hspace{0.3cm}O \hspace{0.75cm}B-arrested \hspace{1.5cm}I-arrested} \\ \hline
-C-BiLSTM$_{char}$: & \texttt{O O O O O O B-arrested I-arrested I-arrested I-arrested} \\ \hline \hline
-Sentence: & \tabincell{l}{
-\hspace{0.15cm}警察 \hspace{0.85cm}\textbf{击毙} 了 \hspace{0.1cm}一名 \hspace{0.15cm}歹徒。 \\
-Polices \textbf{shoot} and \textbf{kill} a criminal.} \\ \hline
-C-BiLSTM$_{word}$: & Can not label this sentence correctly. \\ \hline
-C-BiLSTM$_{char}$: & \texttt{O O B-attack B-die O O O O O} \\ \hline
+The suspects were \textbf{arrested}.} \\
+\midrule
+C-BiLSTM$_{word}$: & \texttt{ O \hspace{0.45cm}O \hspace{0.3cm}O \hspace{0.75cm}B-arrested \hspace{1.5cm}I-arrested} \\
+C-BiLSTM$_{char}$: & \texttt{O O O O O O B-arrested I-arrested I-arrested I-arrested} \\
+\bottomrule
+
+Sentence: & \tabincell{l}{ \hspace{0.15cm}警察 \hspace{0.85cm}\textbf{击毙} 了 \hspace{0.1cm}一名 \hspace{0.15cm}歹徒。\\
+Polices \textbf{shoot} and \textbf{kill} a criminal.} \\
+\midrule
+C-BiLSTM$_{word}$: & Can not label this sentence correctly. \\
+C-BiLSTM$_{char}$: & \texttt{O O B-attack B-die O O O O O} \\
+\bottomrule
 \end{tabular}}
 \end{table}
 

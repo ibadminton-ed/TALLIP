@@ -1,13 +1,13 @@
 \begin{abstract}
-Event extraction is an important technology that underpins many text mining applications. It is a task of extracting events of
+Event extraction  underpins many text mining applications. It is a task of extracting events of
 certain types and their corresponding arguments of different roles from unstructured texts such as news articles and tweets.
 State-of-the-art event extraction approaches rely on high quality feature extraction that requires careful template design
 and is dependent on the results of specific semantic or lexical analyzing tools as well as extra thesauruses.
 As a result, current approaches are hard to generalize, and are not portable to new languages, especially those with limited resources or tools.
 
 
-Different from English, the unique language structures and syntax of Chinese make  prior work on English event
-extraction inapplicable to the new domain.  In this work, we demonstrate that, for the first time, it is possible to
+The unique language structures and syntax of Chinese make  prior work on English event
+extraction inapplicable.  In this work, we demonstrate that, for the first time, it is possible to
 construct a generalized yet effective Chinese event extraction model without relying on manually designed feature
 templates or specific lexical or syntactic tools. Our novel, broadly applicable approach employs a convolution
 bidirectional long short-term memory neural network (\CBiLSTM) to automatically learn a set of effective feature
@@ -17,7 +17,7 @@ bidirectional long short-term memory component (\BiLSTM) for capturing sentence 
 language-specific challenge of Chinese word segmentation, we combine a conditional random field (\CRF) layer over a
 character-level neural network component to allow us tag each character beyond the word boundary. We evaluate our
 approach by applying it to the ACE 2005 dataset. The experimental results show that our approach can deliver
-state-of-the-art performance in both trigger labeling and argument labeling without laborious feature engineering.
+state-of-the-art performance in both trigger and argument labeling, but requires little human involvement.
 
 
 

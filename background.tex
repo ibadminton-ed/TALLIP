@@ -17,18 +17,7 @@ Specifically, in the initial 2005 evaluation, there are three languages in the A
 Despite of the differences among these three languages, their ACE task setups remain the same.
 Given a text document, an event extraction system need to identify all event triggers with specific types and their corresponding arguments for each sentence. For example, given an example sentence, S1, in Chinese, the system should produce a structured output, including a typed event trigger  and its corresponding arguments  with pre-defined  roles, as shown in Figure~\ref{exfigure}.
 
-\begin{figure}
-\centering
-\includegraphics[width=.9\textwidth]{example.pdf}
-\caption{An example of Chinese event extraction for S1, where English translations are provided besides the Chinese words. The example sentence has one \emph{Transfer-Money} event mention triggered by \textit{收购 (acquired)}, which have three arguments, \textit{俄罗斯石油公司 (Rosneft)} as the \emph{Transfer-Money} event's \textit{Buyer}, \textit{尤甘斯克 (Yugansk)}  as its \textit{Artifact}, and \textit{93.5 亿美元 (9.35 billion dollars)} as its \textit{Price}.}
-\label{exfigure}
-\end{figure}
 
-\begin{quote}
-S1: 俄罗斯石油公司 \hspace{0.3cm}收购 \hspace{0.3cm}尤甘斯克 \hspace{0.3cm}付出 \hspace{0.2cm}了 \hspace{0.2cm}仅 \hspace{0.3cm}93.5 \hspace{0.3cm}亿 \hspace{0.3cm}美元。
-
-\hspace{0.52cm} Rosneft acquired Yugansk, paying only 9.35 billion dollars.
-\end{quote}
 
 To produce such a structured output, a system usually has to solve the following four subtasks,
 \begin{enumerate}
@@ -92,4 +81,3 @@ Traditional event extraction methods \cite{ahn2006stages,chen2009language,li2012
 Take Chinese event extraction systems as an example. Current Chinese systems do not perform as well as their English counterparts. One of the major obstacles, as suggested by \citeN{li2012employing}, is caused by the Chinese word segmentation, a unique preprocessing step for Chinese. Unlike English, Chinese does not have delimiters between words, which makes word segmentation the very first and fundamental step in Chinese event detection. However, we find that word segmentation granularity does have a great impact on the trigger labeling performance. For example, triggers in S5$\sim$S7 cannot be recognized accurately if we simply predict whether a word is an event trigger or not. In S5, the word ``落入法网'' is usually separated into two words, while the gold-standard trigger is ``落入法网'' as a whole; while in S6, ``击毙'', in most cases, is treated as one single word, but actually, the characters ``击'' and ``毙'' are two triggers of different types, the former an \textit{Attack} event and the latter a \textit{Die} event, respectively. As in such a pipeline framework, incorrect trigger labeling will definitely affect downstream argument labeling, whose inputs are highly related to the predicated triggers.
 
 One of the key innovations of our approach is to recast trigger labeling as a sequence labeling task, and further to combine different neural network components to automatically learn feature representations of different levels capturing both local lexical and sentence level characteristics for event extraction. Doing so allows us to  address the Chinese language-specific issues mentioned above, by exploiting the recent breakthrough effectiveness of deep neural networks in natural language modeling, and to alleviate the burden of hard feature engineering and the reliance on external tools or thesauruses. In the reminder of this paper, we will describe how to build such a system in two-step fashion, trigger labeling and argument labeling.
-
